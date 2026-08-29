@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <title>CyberLauncher 2026 Ultimate</title>
+  <title>CyberLauncher 2026 Extended</title>
   <style>
     :root {
       --primary: #ff4757;
       --primary-glow: rgba(255, 71, 87, 0.4);
-      --accent-blue: #70a1ff;
       --bg-dark: #07070a;
-      --glass-bg: rgba(18, 18, 26, 0.75);
+      --glass-bg: rgba(18, 18, 26, 0.8);
       --glass-border: rgba(255, 255, 255, 0.08);
       --text-main: #f1f2f6;
       --text-muted: #a4b0be;
+    }
+
+    /* Тема: Neon Blue */
+    body.theme-blue {
+      --primary: #00d2d3;
+      --primary-glow: rgba(0, 210, 211, 0.4);
+    }
+    /* Тема: Stealth Dark */
+    body.theme-stealth {
+      --primary: #ffa502;
+      --primary-glow: rgba(255, 165, 2, 0.4);
     }
 
     * {
@@ -23,52 +33,41 @@
       user-select: none;
     }
 
-    /* Кастомный скроллбар */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--primary);
-    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
 
     body {
       background: var(--bg-dark);
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(255, 71, 87, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(112, 161, 255, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at 10% 20%, var(--primary-glow) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(112, 161, 255, 0.08) 0%, transparent 40%);
       color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       overflow: hidden;
+      transition: background 0.5s ease;
     }
 
     .launcher {
-      width: 980px;
-      height: 620px;
+      width: 1000px;
+      height: 640px;
       background: var(--glass-bg);
-      backdrop-filter: blur(28px) saturate(180%);
-      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      backdrop-filter: blur(28px);
       border-radius: 18px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95), 0 0 1px 1px var(--glass-border);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95);
       border: 1px solid var(--glass-border);
       overflow: hidden;
       position: relative;
     }
 
-    /* Шапка (Window Bar) */
+    /* Header */
     .header {
-      background: rgba(10, 10, 15, 0.6);
+      background: rgba(10, 10, 15, 0.7);
       padding: 12px 20px;
       border-bottom: 1px solid var(--glass-border);
       display: flex;
@@ -80,110 +79,44 @@
       font-weight: 900;
       font-size: 18px;
       letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
       text-transform: uppercase;
     }
 
     .logo span {
-      background: linear-gradient(135deg, #ff4757, #ff6b81);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--primary);
+      transition: color 0.3s;
     }
 
-    .header-center {
+    .header-controls {
       display: flex;
+      align-items: center;
       gap: 12px;
     }
 
-    .info-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
+    .badge-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
       color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .ping-dot {
-      width: 8px;
-      height: 8px;
-      background: #2ed573;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #2ed573;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
       cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 10px;
-      transition: background 0.2s;
+      transition: 0.2s;
     }
 
-    .user-profile:hover {
-      background: rgba(255, 255, 255, 0.06);
+    .badge-btn:hover {
+      color: #fff;
+      border-color: var(--primary);
     }
 
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ff4757, #70a1ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 12px;
-      box-shadow: 0 0 10px var(--primary-glow);
-    }
-
-    .user-info { font-size: 12px; }
-    .user-name { font-weight: 700; }
-    .user-status-text { font-size: 10px; color: #2ed573; }
-
-    /* Кнопки управления окном приложения */
-    .window-controls {
-      display: flex;
-      gap: 8px;
-      margin-left: 10px;
-    }
-
-    .win-btn {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      opacity: 0.8;
-      transition: opacity 0.2s, transform 0.1s;
-    }
-
-    .win-btn:hover { opacity: 1; transform: scale(1.1); }
-    .win-close { background: #ff5f56; }
-    .win-min { background: #ffbd2e; }
-    .win-max { background: #27c93f; }
-
-    /* Главный макет */
+    /* Layout */
     .main-layout {
       display: flex;
       flex: 1;
       height: calc(100% - 57px);
+      position: relative;
     }
 
-    /* Навигация */
     .nav-bar {
       width: 72px;
       background: rgba(8, 8, 12, 0.6);
@@ -207,119 +140,44 @@
       cursor: pointer;
       font-size: 18px;
       color: var(--text-muted);
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .nav-icon:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
+      transition: all 0.25s;
     }
 
     .nav-icon.active {
-      background: linear-gradient(135deg, rgba(255, 71, 87, 0.25), rgba(255, 71, 87, 0.05));
-      border-color: rgba(255, 71, 87, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--primary);
       color: var(--primary);
       box-shadow: 0 0 15px var(--primary-glow);
     }
 
-    /* Область контента */
     .content-area {
       flex: 1;
       display: flex;
       padding: 20px;
       gap: 20px;
-      position: relative;
     }
 
-    .tab-content {
-      display: none;
-      width: 100%;
-      height: 100%;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .tab-content.active {
-      display: flex;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Лента новостей с Героем */
     .news-section {
       flex: 2;
       display: flex;
       flex-direction: column;
       gap: 14px;
       overflow-y: auto;
-      padding-right: 6px;
     }
 
     .hero-banner {
-      width: 100%;
-      height: 150px;
+      height: 140px;
       border-radius: 14px;
-      background: linear-gradient(135deg, rgba(255, 71, 87, 0.8) 0%, rgba(112, 161, 255, 0.4) 100%),
-                  radial-gradient(circle at center, #2f3542 0%, #1e272e 100%);
-      background-blend-mode: overlay;
+      background: linear-gradient(135deg, var(--primary) 0%, rgba(10, 10, 20, 0.8) 100%);
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: inset 0 -40px 50px rgba(0,0,0,0.6);
       position: relative;
-      overflow: hidden;
     }
 
-    .hero-badge {
-      position: absolute;
-      top: 15px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border: 1px solid rgba(255, 71, 87, 0.3);
-    }
+    .hero-banner h2 { font-size: 20px; font-weight: 900; }
 
-    .hero-banner h2 { font-size: 20px; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-    .hero-banner p { font-size: 12px; color: #dfe4ea; margin-top: 4px; }
-
-    .news-card {
-      background: rgba(255, 255, 255, 0.02);
-      padding: 16px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      transition: all 0.25s ease;
-      cursor: pointer;
-    }
-
-    .news-card:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 71, 87, 0.3);
-    }
-
-    .news-tag {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--primary);
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .news-card h4 { font-size: 15px; margin-bottom: 4px; }
-    .news-card p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
-
-    /* Сайдбар действий */
     .side-panel {
       flex: 1.1;
       display: flex;
@@ -331,45 +189,22 @@
       border: 1px solid var(--glass-border);
     }
 
-    .status-header {
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 14px;
-      letter-spacing: 0.5px;
-      color: var(--text-main);
-    }
-
-    .progress-box { margin-bottom: 20px; }
-    
-    .progress-info {
+    /* Монитор системы */
+    .sys-monitor {
       display: flex;
-      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
       font-size: 11px;
-      margin-bottom: 8px;
-      color: var(--text-muted);
     }
 
-    .progress-bar-bg {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
+    .sys-item { flex: 1; color: var(--text-muted); }
+    .sys-val { color: var(--text-main); font-weight: bold; }
 
-    .progress-bar-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #ff4757, #ff6b81);
-      border-radius: 20px;
-      box-shadow: 0 0 10px var(--primary-glow);
-      transition: width 0.3s ease;
-    }
-
-    /* Кнопка */
     .btn-play {
-      background: linear-gradient(135deg, #ff4757 0%, #d63031 100%);
+      background: var(--primary);
       color: white;
       border: none;
       padding: 16px;
@@ -384,305 +219,271 @@
       letter-spacing: 1.5px;
     }
 
-    .btn-play:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(255, 71, 87, 0.6);
-      background: linear-gradient(135deg, #ff6b81 0%, #ff4757 100%);
+    /* Выдвижная панель друзей */
+    .friends-drawer {
+      position: absolute;
+      right: -260px;
+      top: 0;
+      width: 260px;
+      height: 100%;
+      background: rgba(12, 12, 18, 0.95);
+      border-left: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      transition: right 0.3s ease;
+      padding: 20px;
+      z-index: 10;
     }
 
-    .socials {
+    .friends-drawer.open { right: 0; }
+
+    .friend-item {
       display: flex;
-      gap: 8px;
-      margin-top: 14px;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 12px;
     }
 
-    .social-btn {
-      flex: 1;
-      padding: 9px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: 0.2s;
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2ed573;
     }
 
-    .social-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
+    .status-dot.offline { background: #747d8c; }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 6px;
     }
 
-    /* Система плашек-уведомлений (Toast) */
+    .progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.3s;
+    }
+
     .toast-container {
       position: absolute;
-      top: 70px;
+      top: 65px;
       right: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       z-index: 100;
-      pointer-events: none;
     }
 
     .toast {
       background: rgba(20, 20, 30, 0.9);
-      border: 1px solid var(--glass-border);
       border-left: 4px solid var(--primary);
-      padding: 12px 16px;
-      border-radius: 8px;
+      padding: 10px 14px;
+      border-radius: 6px;
       font-size: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      animation: slideIn 0.3s forwards, fadeOut 0.3s 2.7s forwards;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-  <div class="launcher" id="launcherWindow">
-    
-    <!-- Toast Контейнер -->
+  <div class="launcher">
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Шапка приложения -->
     <div class="header">
-      <div class="logo">
-        Cyber<span>Engine</span>
-      </div>
+      <div class="logo">Cyber<span>Engine</span></div>
 
-      <div class="header-center">
-        <div class="info-pill">
-          <div class="ping-dot"></div>
-          <span>Киев (18ms)</span>
-        </div>
-        <div class="info-pill">
-          <span>👥 Онлайн: <strong style="color: #fff;" id="onlineCounter">4,128</strong></span>
-        </div>
-      </div>
-
-      <div class="header-right">
-        <div class="user-profile" id="userProfile">
-          <div class="avatar">UA</div>
-          <div class="user-info">
-            <div class="user-name">Dev_Cyber</div>
-            <div class="user-status-text">● В сети</div>
-          </div>
-        </div>
-
-        <div class="window-controls">
-          <button class="win-btn win-min" title="Свернуть" id="btnMin"></button>
-          <button class="win-btn win-max" title="Развернуть"></button>
-          <button class="win-btn win-close" title="Закрыть" id="btnClose"></button>
-        </div>
+      <div class="header-controls">
+        <button class="badge-btn" id="langToggle">🌐 UA</button>
+        <button class="badge-btn" id="themeToggle">🎨 Тема</button>
+        <button class="badge-btn" id="musicToggle">🎵 OST: Off</button>
+        <button class="badge-btn" id="friendsToggle">👥 Друзі (2)</button>
       </div>
     </div>
     
-    <!-- Контент -->
     <div class="main-layout">
-      
       <div class="nav-bar">
-        <div class="nav-icon active" data-tab="home" title="Главная">🏠</div>
-        <div class="nav-icon" data-tab="shop" title="Магазин">🛒</div>
-        <div class="nav-icon" data-tab="settings" title="Настройки">⚙️</div>
+        <div class="nav-icon active" title="Головна">🏠</div>
+        <div class="nav-icon" title="Налаштування">⚙️</div>
       </div>
 
       <div class="content-area">
-        
-        <!-- Вкладка 1: Главная -->
-        <div class="tab-content active" id="tab-home" style="flex-direction: row; gap: 20px;">
-          
-          <div class="news-section">
-            <div class="hero-banner">
-              <div class="hero-badge">СЕЗОН 4</div>
-              <h2>КИБЕРПАНК ХРОНИКИ</h2>
-              <p>Новый боевой пропуск, легендарное снаряжение и временные режимы уже доступны!</p>
-            </div>
+        <div class="news-section">
+          <div class="hero-banner">
+            <h2 id="bannerTitle">СЕЗОН 4: ОНОВЛЕННЯ</h2>
+            <p id="bannerSub" style="font-size:12px; color:#ddd;">Ласкаво просимо в новий кіберпанк-всесвіт!</p>
+          </div>
 
-            <div class="news-card">
-              <div class="news-tag">Патч 1.3.0</div>
-              <h4>⚡ Масштабный апдейт графики</h4>
-              <p>Добавлена поддержка Ray Tracing 2.0, улучшена генерация кадров и оптимизирована физика.</p>
-            </div>
+          <div style="background: rgba(255,255,255,0.02); padding:16px; border-radius:12px; border:1px solid var(--glass-border)">
+            <h4 id="newsTitle">🔥 Патч 1.3.0 доступний</h4>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:4px;" id="newsText">Додано нові локації, виправлено баги продуктивності та покращено мережевий код.</p>
+          </div>
+        </div>
+
+        <div class="side-panel">
+          <div>
+            <h4 id="statusTitle" style="font-size:13px;">СТАН КЛІЄНТА</h4>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+              <span id="verLabel">Версія</span>: <strong>1.3.0</strong>
+            </p>
             
-            <div class="news-card">
-              <div class="news-tag">Турнир</div>
-              <h4>🏆 Кубок Сообщества</h4>
-              <p>Регистрируйтесь на командные сражения и выигрывайте эксклюзивные внутриигровые награды.</p>
-            </div>
-          </div>
-
-          <div class="side-panel">
-            <div>
-              <div class="status-header">СОСТОЯНИЕ ИГРЫ</div>
-              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
-                Версия: <strong style="color: #fff;" id="gameVersion">1.2.9</strong>
-              </p>
-              
-              <div class="progress-box">
-                <div class="progress-info">
-                  <span id="progressStatus">Требуется обновление</span>
-                  <span id="progressPercent">0%</span>
-                </div>
-                <div class="progress-bar-bg">
-                  <div class="progress-bar-fill" id="progressBar"></div>
-                </div>
+            <div style="margin-top:15px;">
+              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
+                <span id="speedStatus">3.2 MB/s</span>
+                <span id="progressPercent">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
               </div>
             </div>
 
-            <div>
-              <button class="btn-play" id="actionBtn">Обновить</button>
-              <div class="socials">
-                <div class="social-btn" onclick="triggerSocial('Discord')">Discord</div>
-                <div class="social-btn" onclick="triggerSocial('Telegram')">Telegram</div>
-                <div class="social-btn" onclick="triggerSocial('Сайт')">Сайт</div>
-              </div>
+            <!-- Системный монитор -->
+            <div class="sys-monitor">
+              <div class="sys-item">CPU: <span class="sys-val" id="cpuVal">12%</span></div>
+              <div class="sys-item">RAM: <span class="sys-val" id="ramVal">2.4 GB</span></div>
             </div>
           </div>
 
-        </div>
-
-        <!-- Вкладка 2: Магазин -->
-        <div class="tab-content" id="tab-shop" style="flex-direction: column;">
-          <h3 style="margin-bottom: 10px;">🛒 Магазин и Наборы</h3>
-          <p style="color: var(--text-muted); font-size: 13px;">Раздел находится в разработке. Скоро здесь появятся скины и наборы поддержки разработчиков.</p>
-        </div>
-
-        <!-- Вкладка 3: Настройки -->
-        <div class="tab-content" id="tab-settings" style="flex-direction: column; gap: 15px;">
-          <h3>⚙️ Настройки лаунчера</h3>
-          <div style="font-size: 13px; color: var(--text-muted);">
-            <p style="margin-bottom: 8px;">Путь к файлам игры: <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">C:/Games/CyberEngine</code></p>
-            <p>Автозапуск вместе с ОС: <strong>Включен</strong></p>
+          <div>
+            <button class="btn-play" id="actionBtn">Оновити</button>
           </div>
         </div>
-
       </div>
+
+      <!-- Боковое меню друзей -->
+      <div class="friends-drawer" id="friendsDrawer">
+        <h4 style="font-size:14px; margin-bottom:15px;" id="friendsHeader">Друзі в мережі</h4>
+        <div class="friend-item">
+          <div class="status-dot"></div>
+          <div>
+            <div>Alex_Cyber</div>
+            <div style="font-size:10px; color:var(--text-muted);">В грі (Карта 1)</div>
+          </div>
+        </div>
+        <div class="friend-item">
+          <div class="status-dot"></div>
+          <div>
+            <div>Ghost_UA</div>
+            <div style="font-size:10px; color:var(--text-muted);">В меню</div>
+          </div>
+        </div>
+        <div class="friend-item">
+          <div class="status-dot offline"></div>
+          <div>
+            <div>Neon_Rider</div>
+            <div style="font-size:10px; color:var(--text-muted);">Офлайн</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
-    // 1. Показ всплывающих Toast-уведомлений
-    function showToast(text) {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerText = text;
-      container.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
+    function showToast(msg) {
+      const c = document.getElementById('toastContainer');
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.innerText = msg;
+      c.appendChild(t);
+      setTimeout(() => t.remove(), 2500);
     }
 
-    function triggerSocial(name) {
-      showToast(`Ссылка на ${name} скопирована!`);
-    }
+    // 1. Мова (UA / EN)
+    let currentLang = 'UA';
+    const dict = {
+      UA: {
+        bannerTitle: 'СЕЗОН 4: ОНОВЛЕННЯ',
+        bannerSub: 'Ласкаво просимо в новий кіберпанк-всесвіт!',
+        newsTitle: '🔥 Патч 1.3.0 доступний',
+        newsText: 'Додано нові локації, виправлено баги продуктивності та покращено мережевий код.',
+        statusTitle: 'СТАН КЛІЄНТА',
+        verLabel: 'Версія',
+        btnUpdate: 'Оновити',
+        btnPlay: 'Грати',
+        friendsHeader: 'Друзі в мережі'
+      },
+      EN: {
+        bannerTitle: 'SEASON 4: UPDATE',
+        bannerSub: 'Welcome to the new cyberpunk universe!',
+        newsTitle: '🔥 Patch 1.3.0 is live',
+        newsText: 'Added new locations, fixed performance bugs, and optimized network code.',
+        statusTitle: 'CLIENT STATUS',
+        verLabel: 'Version',
+        btnUpdate: 'Update',
+        btnPlay: 'Play',
+        friendsHeader: 'Online Friends'
+      }
+    };
 
-    // 2. Переключение вкладок
-    const navIcons = document.querySelectorAll('.nav-icon');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    navIcons.forEach(icon => {
-      icon.addEventListener('click', () => {
-        navIcons.forEach(i => i.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
-
-        icon.classList.add('active');
-        const tabId = `tab-${icon.dataset.tab}`;
-        document.getElementById(tabId).classList.add('active');
-      });
+    document.getElementById('langToggle').addEventListener('click', () => {
+      currentLang = currentLang === 'UA' ? 'EN' : 'UA';
+      document.getElementById('langToggle').innerText = `🌐 ${currentLang}`;
+      const d = dict[currentLang];
+      
+      document.getElementById('bannerTitle').innerText = d.bannerTitle;
+      document.getElementById('bannerSub').innerText = d.bannerSub;
+      document.getElementById('newsTitle').innerText = d.newsTitle;
+      document.getElementById('newsText').innerText = d.newsText;
+      document.getElementById('statusTitle').innerText = d.statusTitle;
+      document.getElementById('verLabel').innerText = d.verLabel;
+      document.getElementById('friendsHeader').innerText = d.friendsHeader;
+      if (actionBtn.innerText === 'Оновити' || actionBtn.innerText === 'Update') {
+        actionBtn.innerText = d.btnUpdate;
+      }
+      showToast(`Language set to ${currentLang}`);
     });
 
-    // 3. Логика обновления и запуска игры
+    // 2. Темы
+    const themes = ['', 'theme-blue', 'theme-stealth'];
+    let themeIdx = 0;
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      document.body.className = '';
+      themeIdx = (themeIdx + 1) % themes.length;
+      if (themes[themeIdx]) document.body.classList.add(themes[themeIdx]);
+      showToast('Тема змінена!');
+    });
+
+    // 3. Плеер OST
+    let isMusicPlaying = false;
+    document.getElementById('musicToggle').addEventListener('click', () => {
+      isMusicPlaying = !isMusicPlaying;
+      document.getElementById('musicToggle').innerText = isMusicPlaying ? '🎵 OST: On' : '🎵 OST: Off';
+      showToast(isMusicPlaying ? 'Саундтрек увімкнено' : 'Музику вимкнено');
+    });
+
+    // 4. Панель друзей
+    document.getElementById('friendsToggle').addEventListener('click', () => {
+      document.getElementById('friendsDrawer').classList.toggle('open');
+    });
+
+    // 5. Симулятор нагрузки системы
+    setInterval(() => {
+      document.getElementById('cpuVal').innerText = `${Math.floor(Math.random() * 15) + 8}%`;
+      document.getElementById('ramVal').innerText = `${(Math.random() * 0.4 + 2.2).toFixed(1)} GB`;
+    }, 2000);
+
+    // 6. Загрузка
     const actionBtn = document.getElementById('actionBtn');
     const progressBar = document.getElementById('progressBar');
-    const progressStatus = document.getElementById('progressStatus');
     const progressPercent = document.getElementById('progressPercent');
-    const gameVersion = document.getElementById('gameVersion');
-
-    let state = 'update_needed';
 
     actionBtn.addEventListener('click', () => {
-      if (state === 'update_needed') {
-        startDownload();
-      } else if (state === 'ready') {
-        launchGame();
-      } else if (state === 'running') {
-        stopGame();
-      }
-    });
-
-    function startDownload() {
-      state = 'downloading';
-      actionBtn.style.opacity = '0.6';
-      actionBtn.style.cursor = 'not-allowed';
-      actionBtn.innerText = 'Загрузка...';
-      showToast('Началась загрузка обновления v1.3.0');
-      
       let progress = 0;
       const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 7) + 3;
-        
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          state = 'ready';
-          gameVersion.innerText = '1.3.0';
-          progressStatus.innerText = 'Готов к запуску';
-          actionBtn.innerText = 'Играть';
-          actionBtn.style.opacity = '1';
-          actionBtn.style.cursor = 'pointer';
-          showToast('Обновление успешно установлено!');
-        }
-        
+        progress += 5;
         progressBar.style.width = `${progress}%`;
         progressPercent.innerText = `${progress}%`;
-        if (progress < 100) {
-          progressStatus.innerText = `Скачивание... (${progress * 12} MB / 1200 MB)`;
+        if (progress >= 100) {
+          clearInterval(interval);
+          actionBtn.innerText = dict[currentLang].btnPlay;
+          showToast('Клієнт готовий до запуску!');
         }
-      }, 180);
-    }
-
-    function launchGame() {
-      state = 'running';
-      actionBtn.innerText = 'В ИГРЕ (Закрыть)';
-      actionBtn.style.background = 'linear-gradient(135deg, #2ed573, #26af5f)';
-      progressStatus.innerText = 'Клиент запущен';
-      showToast('Игра запускается...');
-    }
-
-    function stopGame() {
-      state = 'ready';
-      actionBtn.innerText = 'Играть';
-      actionBtn.style.background = 'linear-gradient(135deg, #ff4757 0%, #d63031 100%)';
-      progressStatus.innerText = 'Готов к запуску';
-      showToast('Игра закрыта.');
-    }
-
-    // 4. Симуляция колеблющегося онлайна
-    setInterval(() => {
-      const counter = document.getElementById('onlineCounter');
-      let current = parseInt(counter.innerText.replace(',', ''));
-      current += Math.floor(Math.random() * 11) - 5;
-      counter.innerText = current.toLocaleString();
-    }, 3000);
-
-    // 5. Имитация кнопок окна
-    document.getElementById('btnClose').addEventListener('click', () => {
-      showToast('В Electron/Tauri здесь будет закрытие окна.');
-    });
-    document.getElementById('btnMin').addEventListener('click', () => {
-      showToast('Сворачивание лаунчера...');
+      }, 100);
     });
   </script>
 </body>
