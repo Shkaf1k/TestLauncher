@@ -2,319 +2,518 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Превью Лаунчера Pro</title>
+  <title>CyberLauncher 2026 NextGen</title>
   <style>
+    :root {
+      --primary: #ff4757;
+      --primary-glow: rgba(255, 71, 87, 0.4);
+      --accent-blue: #70a1ff;
+      --bg-dark: #07070a;
+      --glass-bg: rgba(20, 20, 28, 0.65);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f2f6;
+      --text-muted: #a4b0be;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      user-select: none;
     }
 
     body {
-      background: #0a0a0d;
-      color: #ffffff;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(255, 71, 87, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(112, 161, 255, 0.08) 0%, transparent 45%);
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-    }
-
-    .launcher {
-      width: 900px;
-      height: 560px;
-      background: linear-gradient(135deg, #141419 0%, #0d0d11 100%);
-      border-radius: 14px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 20px rgba(255, 71, 87, 0.15);
-      border: 1px solid #23232e;
       overflow: hidden;
     }
 
-    /* Шапка с профилем */
+    .launcher {
+      width: 960px;
+      height: 600px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 1px 1px var(--glass-border);
+      border: 1px solid var(--glass-border);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Шапка */
     .header {
-      background: #111116;
-      padding: 12px 25px;
-      border-bottom: 1px solid #23232e;
+      background: rgba(10, 10, 15, 0.4);
+      padding: 16px 28px;
+      border-bottom: 1px solid var(--glass-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .logo {
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: 1px;
-      color: #ffffff;
+      font-weight: 900;
+      font-size: 19px;
+      letter-spacing: 1.5px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      text-transform: uppercase;
     }
 
-    .logo-badge {
-      background: #ff4757;
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
+    .logo span {
+      background: linear-gradient(135deg, #ff4757, #ff6b81);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .server-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .ping-dot {
+      width: 8px;
+      height: 8px;
+      background: #2ed573;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #2ed573;
     }
 
     .user-profile {
       display: flex;
       align-items: center;
       gap: 12px;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+
+    .user-profile:hover {
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .avatar {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: #ff4757;
+      background: linear-gradient(135deg, #ff4757, #70a1ff);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      border: 2px solid #333;
+      box-shadow: 0 0 12px var(--primary-glow);
     }
 
-    .user-info {
-      font-size: 13px;
-    }
+    .user-info { font-size: 13px; }
+    .user-name { font-weight: 700; }
+    .user-status-text { font-size: 11px; color: #2ed573; }
 
-    .user-name {
-      font-weight: bold;
-    }
-
-    .user-status {
-      font-size: 11px;
-      color: #2ed573;
-    }
-
-    /* Контент и сайдбар */
+    /* Главная структура */
     .main-layout {
       display: flex;
       flex: 1;
+      height: calc(100% - 69px);
     }
 
+    /* Навигация 2026 */
     .nav-bar {
-      width: 70px;
-      background: #0e0e12;
-      border-right: 1px solid #23232e;
+      width: 76px;
+      background: rgba(8, 8, 12, 0.5);
+      border-right: 1px solid var(--glass-border);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 0;
-      gap: 20px;
+      padding: 24px 0;
+      gap: 18px;
     }
 
     .nav-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: #181820;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid transparent;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #888;
-      transition: 0.2s;
+      font-size: 18px;
+      color: var(--text-muted);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .nav-icon:hover, .nav-icon.active {
-      background: #ff4757;
+    .nav-icon:hover {
       color: #fff;
-      box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
     }
 
-    .content {
-      display: flex;
+    .nav-icon.active {
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.2), rgba(255, 71, 87, 0.05));
+      border-color: rgba(255, 71, 87, 0.4);
+      color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    /* Рабочая область */
+    .content-area {
       flex: 1;
-      padding: 20px;
-      gap: 20px;
+      display: flex;
+      padding: 24px;
+      gap: 24px;
+      position: relative;
+    }
+
+    .tab-content {
+      display: none;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .news-section {
       flex: 2;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      overflow-y: auto;
     }
 
     .news-card {
-      background: #181822;
-      padding: 16px;
-      border-radius: 10px;
-      border: 1px solid #252533;
-      transition: transform 0.2s;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      transition: all 0.25s ease;
+      cursor: pointer;
     }
 
     .news-card:hover {
-      transform: translateY(-2px);
-      border-color: #ff4757;
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 71, 87, 0.3);
+      transform: scale(1.01);
     }
 
-    .news-card h4 {
-      font-size: 15px;
+    .news-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      font-weight: 800;
       margin-bottom: 6px;
     }
 
-    .news-card p {
-      font-size: 13px;
-      color: #9a9ab0;
-      line-height: 1.4;
-    }
+    .news-card h4 { font-size: 16px; margin-bottom: 6px; }
+    .news-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
+    /* Правая панель с кнопкой */
     .side-panel {
-      flex: 1;
+      flex: 1.1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: #181822;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #252533;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
     }
 
-    /* Прогресс загрузки и кнопка */
-    .progress-box {
-      margin-bottom: 15px;
+    .status-header {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
     }
 
+    .progress-box { margin-bottom: 20px; }
+    
     .progress-info {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      margin-bottom: 6px;
-      color: #aaa;
+      margin-bottom: 8px;
+      color: var(--text-muted);
     }
 
     .progress-bar-bg {
       width: 100%;
-      height: 8px;
-      background: #252533;
-      border-radius: 4px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
       overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .progress-bar-fill {
-      width: 75%;
+      width: 0%;
       height: 100%;
       background: linear-gradient(90deg, #ff4757, #ff6b81);
-      border-radius: 4px;
+      border-radius: 20px;
+      box-shadow: 0 0 12px var(--primary-glow);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* Интерактивная кнопка */
     .btn-play {
-      background: linear-gradient(135deg, #ff4757, #ff6b81);
+      background: linear-gradient(135deg, #ff4757 0%, #d63031 100%);
       color: white;
       border: none;
-      padding: 16px;
-      font-size: 18px;
-      font-weight: 800;
-      border-radius: 10px;
+      padding: 18px;
+      font-size: 16px;
+      font-weight: 900;
+      border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
-      transition: all 0.2s;
+      box-shadow: 0 8px 25px var(--primary-glow);
+      transition: all 0.25s ease;
       width: 100%;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      position: relative;
+      overflow: hidden;
     }
 
     .btn-play:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.5);
+      box-shadow: 0 12px 30px rgba(255, 71, 87, 0.6);
+      background: linear-gradient(135deg, #ff6b81 0%, #ff4757 100%);
+    }
+
+    .btn-play:active {
+      transform: translateY(1px);
     }
 
     .socials {
       display: flex;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 16px;
     }
 
     .social-btn {
       flex: 1;
-      padding: 8px;
-      background: #232330;
-      border-radius: 6px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
       text-align: center;
       font-size: 12px;
-      color: #aaa;
+      color: var(--text-muted);
       cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
     }
 
     .social-btn:hover {
       color: #fff;
-      background: #2d2d3d;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
     }
   </style>
 </head>
 <body>
 
   <div class="launcher">
+    <!-- Шапка -->
     <div class="header">
       <div class="logo">
-        CYBER GAME <span class="logo-badge">PRO</span>
+        Cyber<span>Engine</span>
       </div>
-      <div class="user-profile">
-        <div class="avatar">P</div>
+      
+      <div class="server-status">
+        <div class="ping-dot"></div>
+        <span>Сервер: Киев (18ms)</span>
+      </div>
+
+      <div class="user-profile" id="userProfile">
+        <div class="avatar">UA</div>
         <div class="user-info">
-          <div class="user-name">Player_1337</div>
-          <div class="user-status">● В сети</div>
+          <div class="user-name">Dev_Cyber</div>
+          <div class="user-status-text" id="statusText">● В сети</div>
         </div>
       </div>
     </div>
     
     <div class="main-layout">
-      <!-- Иконки навигации -->
+      <!-- Навигация -->
       <div class="nav-bar">
-        <div class="nav-icon active">🏠</div>
-        <div class="nav-icon">⚙️</div>
-        <div class="nav-icon">🛒</div>
+        <div class="nav-icon active" data-tab="home" title="Главное">🏠</div>
+        <div class="nav-icon" data-tab="shop" title="Магазин">🛒</div>
+        <div class="nav-icon" data-tab="settings" title="Настройки">⚙️</div>
       </div>
 
-      <div class="content">
-        <div class="news-section">
-          <h3 style="font-size: 16px; margin-bottom: 5px;">Последние новости</h3>
-          
-          <div class="news-card">
-            <h4>🔥 Обновление 1.2: Новое оружие и карта</h4>
-            <p>Встречайте масштабное обновление! Добавлена локация "Заброшенный завод" и новое снаряжение.</p>
-          </div>
-          
-          <div class="news-card">
-            <h4>🏆 Турнир выходного дня</h4>
-            <p>Регистрируйтесь на командный турнир с призовым фондом в внутриигровой валюте.</p>
-          </div>
-        </div>
-
-        <div class="side-panel">
-          <div>
-            <h4 style="margin-bottom: 12px;">Состояние игры</h4>
-            <p style="font-size: 13px; color: #aaa; margin-bottom: 15px;">Версия клиента: <strong>1.2.0</strong></p>
+      <!-- Основная секция -->
+      <div class="content-area">
+        
+        <!-- Вкладка: Главная -->
+        <div class="tab-content active" id="tab-home" style="flex-direction: row;">
+          <div class="news-section">
+            <h3 style="font-size: 15px; letter-spacing: 0.5px;">ЛЕНТА НОВОСТЕЙ</h3>
             
-            <div class="progress-box">
-              <div class="progress-info">
-                <span>Загрузка ресурсов...</span>
-                <span>75%</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div class="progress-bar-fill"></div>
-              </div>
+            <div class="news-card">
+              <div class="news-tag">Патч 1.3.0</div>
+              <h4>⚡ Масштабный апдейт графики</h4>
+              <p>Добавлена поддержка Ray Tracing 2.0, улучшена генерация кадров и переработана физика движений.</p>
+            </div>
+            
+            <div class="news-card">
+              <div class="news-tag">Событие</div>
+              <h4>🏆 Сезонный рейтинг открыт!</h4>
+              <p>Участвуйте в рейтинговых матчах и получайте уникальные скины для оружия до конца недели.</p>
             </div>
           </div>
 
-          <div>
-            <button class="btn-play">Играть</button>
-            <div class="socials">
-              <div class="social-btn">Discord</div>
-              <div class="social-btn">Telegram</div>
-              <div class="social-btn">Сайт</div>
+          <!-- Сайдбар управления игрой -->
+          <div class="side-panel">
+            <div>
+              <div class="status-header">СОСТОЯНИЕ ИГРЫ</div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+                Версия: <strong style="color: #fff;" id="gameVersion">1.2.9</strong>
+              </p>
+              
+              <div class="progress-box">
+                <div class="progress-info">
+                  <span id="progressStatus">Требуется обновление</span>
+                  <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <button class="btn-play" id="actionBtn">Обновить</button>
+              <div class="socials">
+                <a class="social-btn" href="#">Discord</a>
+                <a class="social-btn" href="#">Telegram</a>
+                <a class="social-btn" href="#">Сайт</a>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Вкладка: Магазин -->
+        <div class="tab-content" id="tab-shop">
+          <h3>🛒 Внутриигровой Магазин</h3>
+          <p style="color: var(--text-muted); font-size: 14px;">Раздел в разработке. Скоро здесь появятся наборы и батлпассы!</p>
+        </div>
+
+        <!-- Вкладка: Настройки -->
+        <div class="tab-content" id="tab-settings">
+          <h3>⚙️ Настройки лаунчера</h3>
+          <p style="color: var(--text-muted); font-size: 14px; margin-top: 10px;">Путь к игре: <code>C:/Games/CyberGame</code></p>
+        </div>
+
       </div>
     </div>
   </div>
 
+  <script>
+    // 1. Переключение вкладок
+    const navIcons = document.querySelectorAll('.nav-icon');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    navIcons.forEach(icon => {
+      icon.addEventListener('click', () => {
+        navIcons.forEach(i => i.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        icon.classList.add('active');
+        const tabId = `tab-${icon.dataset.tab}`;
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // 2. Интерактивная логика кнопки "Обновить / Играть"
+    const actionBtn = document.getElementById('actionBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressStatus = document.getElementById('progressStatus');
+    const progressPercent = document.getElementById('progressPercent');
+    const gameVersion = document.getElementById('gameVersion');
+
+    let state = 'update_needed'; // 'update_needed' | 'downloading' | 'ready' | 'running'
+
+    actionBtn.addEventListener('click', () => {
+      if (state === 'update_needed') {
+        startDownload();
+      } else if (state === 'ready') {
+        launchGame();
+      } else if (state === 'running') {
+        stopGame();
+      }
+    });
+
+    function startDownload() {
+      state = 'downloading';
+      actionBtn.style.opacity = '0.6';
+      actionBtn.style.cursor = 'not-allowed';
+      actionBtn.innerText = 'Загрузка...';
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 8) + 3;
+        
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          state = 'ready';
+          gameVersion.innerText = '1.3.0';
+          progressStatus.innerText = 'Готов к запуску';
+          actionBtn.innerText = 'Играть';
+          actionBtn.style.opacity = '1';
+          actionBtn.style.cursor = 'pointer';
+        }
+        
+        progressBar.style.width = `${progress}%`;
+        progressPercent.innerText = `${progress}%`;
+        if (progress < 100) {
+          progressStatus.innerText = `Загрузка... (${progress * 12} MB / 1200 MB)`;
+        }
+      }, 200);
+    }
+
+    function launchGame() {
+      state = 'running';
+      actionBtn.innerText = 'В ИГРЕ (Закрыть)';
+      actionBtn.style.background = 'linear-gradient(135deg, #2ed573, #26af5f)';
+      progressStatus.innerText = 'Клиент запущен';
+    }
+
+    function stopGame() {
+      state = 'ready';
+      actionBtn.innerText = 'Играть';
+      actionBtn.style.background = 'linear-gradient(135deg, #ff4757 0%, #d63031 100%)';
+      progressStatus.innerText = 'Готов к запуску';
+    }
+  </script>
 </body>
 </html>
