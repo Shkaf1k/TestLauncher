@@ -1,547 +1,289 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <title>CyberLauncher Steam Edition 2026</title>
-  <style>
-    :root {
-      --primary: #ff4757;
-      --primary-glow: rgba(255, 71, 87, 0.4);
-      --bg-dark: #07070a;
-      --glass-bg: rgba(18, 18, 26, 0.85);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #f1f2f6;
-      --text-muted: #a4b0be;
-    }
-
-    body.theme-blue { --primary: #00d2d3; --primary-glow: rgba(0, 210, 211, 0.4); }
-    body.theme-stealth { --primary: #ffa502; --primary-glow: rgba(255, 165, 2, 0.4); }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      user-select: none;
-    }
-
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
-    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
-
-    body {
-      background: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 10% 20%, var(--primary-glow) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(112, 161, 255, 0.08) 0%, transparent 40%);
-      color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-      transition: background 0.5s ease;
-    }
-
-    .launcher {
-      width: 1020px;
-      height: 660px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(28px);
-      border-radius: 18px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95);
-      border: 1px solid var(--glass-border);
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Header */
-    .header {
-      background: rgba(10, 10, 15, 0.7);
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--glass-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .logo span { color: var(--primary); transition: color 0.3s; }
-
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .badge-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
-      color: var(--text-muted);
-      padding: 5px 10px;
-      border-radius: 8px;
-      font-size: 11px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .badge-btn:hover { color: #fff; border-color: var(--primary); }
-
-    /* Layout */
-    .main-layout {
-      display: flex;
-      flex: 1;
-      height: calc(100% - 57px);
-      position: relative;
-    }
-
-    .nav-bar {
-      width: 72px;
-      background: rgba(8, 8, 12, 0.6);
-      border-right: 1px solid var(--glass-border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 0;
-      gap: 16px;
-    }
-
-    .nav-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 18px;
-      color: var(--text-muted);
-      transition: all 0.25s;
-    }
-
-    .nav-icon.active {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--primary);
-      color: var(--primary);
-      box-shadow: 0 0 15px var(--primary-glow);
-    }
-
-    .content-area {
-      flex: 1;
-      display: flex;
-      padding: 20px;
-      gap: 20px;
-    }
-
-    .news-section {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .hero-banner {
-      height: 130px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary) 0%, rgba(10, 10, 20, 0.8) 100%);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      position: relative;
-    }
-
-    .hero-banner h2 { font-size: 18px; font-weight: 900; }
-
-    /* Steam-Style Play Stats Bar */
-    .stats-bar {
-      display: flex;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--glass-border);
-      border-radius: 10px;
-      padding: 10px 14px;
-      justify-content: space-between;
-      font-size: 12px;
-    }
-
-    .stat-box { display: flex; flex-direction: column; gap: 2px; }
-    .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-    .stat-val { font-weight: bold; color: #fff; }
-
-    /* Achievements */
-    .achievements-box {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      padding: 12px;
-    }
-
-    .ach-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    .ach-list {
-      display: flex;
-      gap: 8px;
-    }
-
-    .ach-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .ach-badge:hover { transform: scale(1.1); border-color: var(--primary); }
-    .ach-badge.locked { opacity: 0.3; filter: grayscale(1); }
-
-    /* Screenshots gallery */
-    .gallery-box {
-      display: flex;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .shot {
-      flex: 1;
-      height: 60px;
-      border-radius: 8px;
-      background: #1e1e2d;
-      border: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .shot:hover { border-color: var(--primary); color: #fff; }
-
-    /* Side Panel */
-    .side-panel {
-      flex: 1.1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 20px;
-      border-radius: 14px;
-      border: 1px solid var(--glass-border);
-    }
-
-    .branch-select {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--glass-border);
-      color: var(--text-main);
-      padding: 8px;
-      border-radius: 8px;
-      font-size: 12px;
-      margin-top: 6px;
-      outline: none;
-    }
-
-    .btn-play {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 900;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 8px 25px var(--primary-glow);
-      transition: all 0.25s ease;
-      width: 100%;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-
-    /* Drawer */
-    .friends-drawer {
-      position: absolute;
-      right: -260px;
-      top: 0;
-      width: 260px;
-      height: 100%;
-      background: rgba(12, 12, 18, 0.95);
-      border-left: 1px solid var(--glass-border);
-      backdrop-filter: blur(20px);
-      transition: right 0.3s ease;
-      padding: 20px;
-      z-index: 10;
-    }
-
-    .friends-drawer.open { right: 0; }
-
-    .friend-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-size: 12px;
-    }
-
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #2ed573; }
-
-    .progress-bar-bg {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 6px;
-    }
-
-    .progress-bar-fill {
-      width: 0%;
-      height: 100%;
-      background: var(--primary);
-      transition: width 0.3s;
-    }
-
-    .toast-container {
-      position: absolute;
-      top: 65px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 100;
-    }
-
-    .toast {
-      background: rgba(20, 20, 30, 0.9);
-      border-left: 4px solid var(--primary);
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="launcher">
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Header -->
-    <div class="header">
-      <div class="logo">Cyber<span>Engine</span></div>
-
-      <div class="header-controls">
-        <button class="badge-btn" id="langToggle">🌐 UA</button>
-        <button class="badge-btn" id="themeToggle">🎨 Тема</button>
-        <button class="badge-btn" id="cloudToggle">☁️ Хмара: ОК</button>
-        <button class="badge-btn" id="friendsToggle">👥 Друзі (2)</button>
-      </div>
-    </div>
-    
-    <div class="main-layout">
-      <div class="nav-bar">
-        <div class="nav-icon active" title="Головна">🏠</div>
-        <div class="nav-icon" title="Налаштування">⚙️</div>
-      </div>
-
-      <div class="content-area">
-        <div class="news-section">
-          <!-- Banner -->
-          <div class="hero-banner">
-            <h2 id="bannerTitle">СЕЗОН 4: ОНОВЛЕННЯ</h2>
-            <p id="bannerSub" style="font-size:11px; color:#ddd;">Новий рейд та легендарне спорядження доступні!</p>
-          </div>
-
-          <!-- Steam Play Stats -->
-          <div class="stats-bar">
-            <div class="stat-box">
-              <span class="stat-label">Час у грі</span>
-              <span class="stat-val" id="playtimeVal">54.2 год</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-label">Останній запуск</span>
-              <span class="stat-val">Вчора</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-label">Досягнення</span>
-              <span class="stat-val">12 / 20</span>
-            </div>
-          </div>
-
-          <!-- Achievements Block -->
-          <div class="achievements-box">
-            <div class="ach-header">
-              <span>Останні досягнення</span>
-              <span style="color:var(--text-muted);">60% здобуто</span>
-            </div>
-            <div class="ach-list">
-              <div class="ach-badge" onclick="showToast('Досягнення: Перша перемога!')" title="Перша перемога">🏆</div>
-              <div class="ach-badge" onclick="showToast('Досягнення: Влучний стрілець')" title="Влучний стрілець">🎯</div>
-              <div class="ach-badge" onclick="showToast('Досягнення: Хакер року')" title="Хакер року">💻</div>
-              <div class="ach-badge locked" title="Заблоковано: Легенда">👑</div>
-              <div class="ach-badge locked" title="Заблоковано: Майстер рейду">⚔️</div>
-            </div>
-          </div>
-
-          <!-- Screenshot Gallery -->
-          <div style="margin-top: 4px;">
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">Скріншоти спільноти</div>
-            <div class="gallery-box">
-              <div class="shot" onclick="showToast('Відкрито скріншот #1')">🖼️ Карта 1</div>
-              <div class="shot" onclick="showToast('Відкрито скріншот #2')">🖼️ Бос Рейду</div>
-              <div class="shot" onclick="showToast('Відкрито скріншот #3')">🖼️ Зброя</div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="side-panel">
-          <div>
-            <h4 id="statusTitle" style="font-size:13px;">СТАН КЛІЄНТА</h4>
-            <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">
-              <span id="verLabel">Версія</span>: <strong>1.3.0</strong>
-            </p>
-
-            <!-- Choice of Beta / Public branch -->
-            <div style="margin-top: 10px;">
-              <label style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Гілка оновлень:</label>
-              <select class="branch-select" id="branchSelect">
-                <option value="main">Реліз (Public 1.3.0)</option>
-                <option value="beta">Бета-тест (PTR 1.4.0-rc)</option>
-              </select>
-            </div>
-            
-            <div style="margin-top:15px;">
-              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
-                <span id="speedStatus">3.2 MB/s</span>
-                <span id="progressPercent">0%</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressBar"></div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <button class="btn-play" id="actionBtn">Оновити</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Friends Drawer -->
-      <div class="friends-drawer" id="friendsDrawer">
-        <h4 style="font-size:14px; margin-bottom:15px;">Друзі в мережі</h4>
-        <div class="friend-item">
-          <div class="status-dot"></div>
-          <div>
-            <div>Alex_Cyber</div>
-            <div style="font-size:10px; color:var(--text-muted);">В грі (Карта 1)</div>
-          </div>
-        </div>
-        <div class="friend-item">
-          <div class="status-dot"></div>
-          <div>
-            <div>Ghost_UA</div>
-            <div style="font-size:10px; color:var(--text-muted);">В меню</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    function showToast(msg) {
-      const c = document.getElementById('toastContainer');
-      const t = document.createElement('div');
-      t.className = 'toast';
-      t.innerText = msg;
-      c.appendChild(t);
-      setTimeout(() => t.remove(), 2500);
-    }
-
-    // Cloud sync simulation
-    document.getElementById('cloudToggle').addEventListener('click', () => {
-      showToast('Синхронізація з хмарою виконана!');
-    });
-
-    // Beta Branch Switcher
-    document.getElementById('branchSelect').addEventListener('change', (e) => {
-      showToast(`Переключено на гілку: ${e.target.options[e.target.selectedIndex].text}`);
-    });
-
-    // Themes
-    const themes = ['', 'theme-blue', 'theme-stealth'];
-    let themeIdx = 0;
-    document.getElementById('themeToggle').addEventListener('click', () => {
-      document.body.className = '';
-      themeIdx = (themeIdx + 1) % themes.length;
-      if (themes[themeIdx]) document.body.classList.add(themes[themeIdx]);
-      showToast('Тема змінена!');
-    });
-
-    document.getElementById('friendsToggle').addEventListener('click', () => {
-      document.getElementById('friendsDrawer').classList.toggle('open');
-    });
-
-    // Download & Launch Logic
-    const actionBtn = document.getElementById('actionBtn');
-    const progressBar = document.getElementById('progressBar');
-    const progressPercent = document.getElementById('progressPercent');
-    let isPlaying = false;
-
-    actionBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        isPlaying = false;
-        actionBtn.innerText = 'Грати';
-        actionBtn.style.background = 'var(--primary)';
-        showToast('Гра закрита.');
-        return;
-      }
-
-      if (actionBtn.innerText === 'Грати') {
-        isPlaying = true;
-        actionBtn.innerText = 'В ІГРІ (Закрити)';
-        actionBtn.style.background = '#2ed573';
-        showToast('Гра запускється!');
-        return;
-      }
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        progressBar.style.width = `${progress}%`;
-        progressPercent.innerText = `${progress}%`;
-        if (progress >= 100) {
-          clearInterval(interval);
-          actionBtn.innerText = 'Грати';
-          showToast('Оновлення завантажено!');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TubeStream — Видеохостинг</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        yt: {
+                            black: '#0f0f0f',
+                            card: '#212121',
+                            hover: '#272727',
+                            border: '#3f3f3f',
+                            red: '#ff0000',
+                            text: '#f1f1f1',
+                            muted: '#aaaaaa'
+                        }
+                    }
+                }
+            }
         }
-      }, 120);
-    });
-  </script>
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Стилизация скроллбара под классический YouTube */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f3f;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555555;
+        }
+    </style>
+</head>
+<body class="bg-yt-black text-yt-text font-sans antialiased selection:bg-yt-red selection:text-white min-h-screen flex flex-col">
+
+    <!-- SHAPKA / HEADER -->
+    <header class="sticky top-0 z-50 bg-yt-black/95 backdrop-blur-md border-b border-yt-border/40 px-4 py-2.5 flex items-center justify-between gap-4">
+        <!-- Left: Logo & Sidebar Toggle -->
+        <div class="flex items-center gap-4">
+            <button id="sidebarToggleBtn" class="p-2 hover:bg-yt-hover rounded-full transition-colors text-yt-text">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+            <a href="#" onclick="showSection('home')" class="flex items-center gap-1">
+                <div class="bg-yt-red text-white p-1.5 rounded-xl flex items-center justify-center">
+                    <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white flex items-center">
+                    TubeStream<span class="text-[10px] bg-yt-hover text-yt-muted px-1.5 py-0.5 rounded ml-1 font-mono uppercase">Free</span>
+                </span>
+            </a>
+        </div>
+
+        <!-- Center: Search Bar -->
+        <div class="flex-1 max-w-2xl flex items-center gap-2">
+            <div class="flex items-center w-full bg-[#121212] border border-yt-border rounded-full overflow-hidden focus-within:border-blue-500 transition-colors">
+                <input type="text" id="searchInput" placeholder="Введите запрос..." class="w-full bg-transparent px-4 py-2 text-sm text-yt-text focus:outline-none">
+                <button onclick="performSearch()" class="bg-yt-card px-5 py-2 hover:bg-yt-hover border-l border-yt-border text-yt-text transition-colors">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <button class="p-2.5 bg-yt-card hover:bg-yt-hover rounded-full transition-colors hidden sm:flex text-yt-text" title="Голосовой поиск">
+                <i data-lucide="mic" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Right: Actions & User Profile -->
+        <div class="flex items-center gap-2">
+            <button onclick="openUploadModal()" class="flex items-center gap-2 bg-yt-card hover:bg-yt-hover text-yt-text px-3 py-1.5 rounded-full text-sm font-medium transition-colors">
+                <i data-lucide="plus" class="w-5 h-5 text-yt-red"></i>
+                <span class="hidden md:inline">Создать</span>
+            </button>
+            <button class="p-2 hover:bg-yt-hover rounded-full transition-colors text-yt-text relative">
+                <i data-lucide="bell" class="w-6 h-6"></i>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-yt-red rounded-full"></span>
+            </button>
+            <div class="relative">
+                <button onclick="toggleProfileMenu()" class="flex items-center focus:outline-none">
+                    <img id="headerAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-yt-border">
+                </button>
+                <!-- Profile Dropdown -->
+                <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-yt-card border border-yt-border rounded-2xl shadow-2xl py-2 z-50">
+                    <div class="px-4 py-3 border-b border-yt-border/50 flex items-center gap-3">
+                        <img id="dropdownAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p id="dropdownName" class="font-semibold text-sm">Alex Developer</p>
+                            <p id="dropdownHandle" class="text-xs text-yt-muted">@alex_dev</p>
+                        </div>
+                    </div>
+                    <a href="#" onclick="showSection('channel')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-yt-hover text-sm"><i data-lucide="user" class="w-4 h-4"></i>Мой канал</a>
+                    <a href="#" onclick="showSection('studio')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-yt-hover text-sm"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>Творческая студия</a>
+                    <a href="#" onclick="openSettingsModal()" class="flex items-center gap-3 px-4 py-2.5 hover:bg-yt-hover text-sm"><i data-lucide="settings" class="w-4 h-4"></i>Настройки</a>
+                    <div class="border-t border-yt-border/50 my-1"></div>
+                    <button onclick="logout()" class="w-full text-left flex items-center gap-3 px-4 py-2.5 hover:bg-yt-hover text-sm text-red-500"><i data-lucide="log-out" class="w-4 h-4"></i>Выйти</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY LAYOUT -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="w-64 bg-yt-black border-r border-yt-border/30 p-3 flex flex-col gap-1 shrink-0 transition-all duration-300">
+            <button onclick="showSection('home')" class="sidebar-item active flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-yt-hover transition-colors">
+                <i data-lucide="home" class="w-5 h-5"></i><span>Главная</span>
+            </button>
+            <button onclick="showSection('shorts')" class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-yt-hover transition-colors">
+                <i data-lucide="zap" class="w-5 h-5 text-yt-red"></i><span>Shorts</span>
+            </button>
+            <button onclick="showSection('subscriptions')" class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-yt-hover transition-colors">
+                <i data-lucide="tv" class="w-5 h-5"></i><span>Подписки</span>
+            </button>
+            <hr class="border-yt-border/40 my-2">
+            <div class="px-3 text-xs font-semibold text-yt-muted mb-1">ВЫ</div>
+            <button onclick="showSection('channel')" class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-yt-hover transition-colors">
+                <i data-lucide="user" class="w-5 h-5"></i><span>Мой канал</span>
+            </button>
+            <button onclick="showSection('history')" class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-yt-hover transition-colors">
+                <i data-lucide="history" class="w-5 h-5"></i><span>История</span>
+            </button>
+            <button onclick="showSection('studio')" class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-yt-hover transition-colors">
+                <i data-lucide="trending-up" class="w-5 h-5"></i><span>Творческая студия</span>
+            </button>
+            <hr class="border-yt-border/40 my-2">
+            <div class="px-3 text-xs font-semibold text-yt-muted mb-1">ПОДПИСКИ</div>
+            <div class="flex flex-col gap-1">
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm hover:bg-yt-hover">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" class="w-6 h-6 rounded-full object-cover">
+                    <span class="truncate">Code Master</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm hover:bg-yt-hover">
+                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=80&q=80" class="w-6 h-6 rounded-full object-cover">
+                    <span class="truncate">Tech Zone</span>
+                </a>
+            </div>
+            <div class="mt-auto p-3 text-[11px] text-yt-muted border-t border-yt-border/30">
+                Бесплатная платформа без рекламы.<br>© 2026 TubeStream
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-6" id="mainContent">
+            
+            <!-- CATEGORY TAGS -->
+            <div id="categoryTags" class="flex gap-2 overflow-x-auto pb-4 mb-4 scrollbar-none">
+                <button class="bg-white text-black px-4 py-1.5 rounded-lg text-sm font-semibold whitespace-nowrap">Все</button>
+                <button class="bg-yt-card hover:bg-yt-hover px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Игры</button>
+                <button class="bg-yt-card hover:bg-yt-hover px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Музыка</button>
+                <button class="bg-yt-card hover:bg-yt-hover px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Программирование</button>
+                <button class="bg-yt-card hover:bg-yt-hover px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Технологии</button>
+                <button class="bg-yt-card hover:bg-yt-hover px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap">Развлечения</button>
+            </div>
+
+            <!-- SECTION: HOME / GRID -->
+            <section id="sectionHome" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Video Item 1 -->
+                <div class="flex flex-col gap-2 cursor-pointer group" onclick="watchVideo('javascript-2026')">
+                    <div class="relative aspect-video rounded-xl overflow-hidden bg-yt-card">
+                        <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <span class="absolute bottom-2 right-2 bg-black/80 px-1.5 py-0.5 text-xs font-mono rounded">12:40</span>
+                    </div>
+                    <div class="flex gap-3 mt-1">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" class="w-9 h-9 rounded-full object-cover">
+                        <div class="flex flex-col">
+                            <h3 class="font-semibold text-sm line-clamp-2 text-yt-text group-hover:text-yt-red transition-colors">Полный курс по JavaScript 2026 - От Новичка до Профи</h3>
+                            <p class="text-xs text-yt-muted mt-1">Code Master</p>
+                            <p class="text-xs text-yt-muted">142 тыс. просмотров • 2 дня назад</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Item 2 -->
+                <div class="flex flex-col gap-2 cursor-pointer group" onclick="watchVideo('gaming-setup')">
+                    <div class="relative aspect-video rounded-xl overflow-hidden bg-yt-card">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <span class="absolute bottom-2 right-2 bg-black/80 px-1.5 py-0.5 text-xs font-mono rounded">18:15</span>
+                    </div>
+                    <div class="flex gap-3 mt-1">
+                        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80" class="w-9 h-9 rounded-full object-cover">
+                        <div class="flex flex-col">
+                            <h3 class="font-semibold text-sm line-clamp-2 text-yt-text group-hover:text-yt-red transition-colors">Обзор Игровой Станции Мечты 2026 года!</h3>
+                            <p class="text-xs text-yt-muted mt-1">Tech Zone</p>
+                            <p class="text-xs text-yt-muted">89 тыс. просмотров • 5 дней назад</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Item 3 -->
+                <div class="flex flex-col gap-2 cursor-pointer group" onclick="watchVideo('lofi-music')">
+                    <div class="relative aspect-video rounded-xl overflow-hidden bg-yt-card">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <span class="absolute bottom-2 right-2 bg-yt-red text-white px-1.5 py-0.5 text-xs font-bold uppercase rounded">LIVE</span>
+                    </div>
+                    <div class="flex gap-3 mt-1">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="w-9 h-9 rounded-full object-cover">
+                        <div class="flex flex-col">
+                            <h3 class="font-semibold text-sm line-clamp-2 text-yt-text group-hover:text-yt-red transition-colors">Lo-Fi Hip Hop Beats - Музыка для Учебы и Отдыха</h3>
+                            <p class="text-xs text-yt-muted mt-1">Chill Radio</p>
+                            <p class="text-xs text-yt-muted">1.2 млн просмотров • Прямой эфир</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: STUDIO (ТВОРЧЕСКАЯ СТУДИЯ - БЕЗ ДОХОДА) -->
+            <section id="sectionStudio" class="hidden flex flex-col gap-6">
+                <div class="flex items-center justify-between border-b border-yt-border/40 pb-4">
+                    <div>
+                        <h1 class="text-2xl font-bold">Студия автора</h1>
+                        <p class="text-sm text-yt-muted">Аналитика канала и управление контентом</p>
+                    </div>
+                    <button onclick="openUploadModal()" class="bg-yt-red hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                        <i data-lucide="upload" class="w-4 h-4"></i> Загрузить видео
+                    </button>
+                </div>
+
+                <!-- Аналитические метрики (ТОЛЬКО БЕСПЛАТНЫЕ ПОКАЗАТЕЛИ) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-yt-card border border-yt-border/50 p-5 rounded-2xl flex flex-col gap-1">
+                        <span class="text-xs text-yt-muted uppercase font-semibold">Просмотры</span>
+                        <span class="text-3xl font-extrabold text-white">1.4M</span>
+                        <span class="text-xs text-green-400 mt-2">↑ +12% за 28 дней</span>
+                    </div>
+                    <div class="bg-yt-card border border-yt-border/50 p-5 rounded-2xl flex flex-col gap-1">
+                        <span class="text-xs text-yt-muted uppercase font-semibold">Подписчики</span>
+                        <span class="text-3xl font-extrabold text-white">+48.2K</span>
+                        <span class="text-xs text-green-400 mt-2">↑ +5.4K в этом месяце</span>
+                    </div>
+                    <div class="bg-yt-card border border-yt-border/50 p-5 rounded-2xl flex flex-col gap-1">
+                        <span class="text-xs text-yt-muted uppercase font-semibold">Удержание аудитории</span>
+                        <span class="text-3xl font-extrabold text-white">94.8%</span>
+                        <span class="text-xs text-yt-muted mt-2">Высокая активность</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Инициализация иконок Lucide
+        lucide.createIcons();
+
+        // Функция переключения секций
+        function showSection(sectionId) {
+            document.getElementById('sectionHome').classList.add('hidden');
+            document.getElementById('sectionStudio').classList.add('hidden');
+            
+            if (sectionId === 'home') {
+                document.getElementById('sectionHome').classList.remove('hidden');
+            } else if (sectionId === 'studio') {
+                document.getElementById('sectionStudio').classList.remove('hidden');
+            }
+        }
+
+        // Переключение выпадающего меню профиля
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Заглушка для поиска
+        function performSearch() {
+            const query = document.getElementById('searchInput').value;
+            if(query) alert('Поиск по запросу: ' + query);
+        }
+
+        // Заглушка модального окна загрузки
+        function openUploadModal() {
+            alert('Открытие формы загрузки нового видео...');
+        }
+    </script>
 </body>
 </html>
